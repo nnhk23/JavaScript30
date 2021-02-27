@@ -18,7 +18,7 @@
 
   <style>
     html {
-      background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
+      background: url(https://images.unsplash.com/photo-1563467743682-704cc8ccb9c6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80) no-repeat center;
       background-size: cover;
       font-family: 'helvetica neue';
       text-align: center;
@@ -42,6 +42,7 @@
       margin: 50px auto;
       position: relative;
       padding: 2rem;
+      background: #cfb3d478;
       box-shadow:
         0 0 0 4px rgba(0,0,0,0.1),
         inset 0 0 0 3px #EFEFEF,
@@ -62,12 +63,57 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+    }
+
+    .second-hand {
+      background-color: #fdb502;
+      height: 2px;
+    }
+
+    .min-hand {
+      background-color: #797903;
+      height: 4px;
     }
 
   </style>
 
   <script>
+    const secondHand = document.querySelector('.second-hand')
+    const minHand = document.querySelector('.min-hand')
+    const hourHand = document.querySelector('.hour-hand')
+    const hand = document.querySelector('.hand')
 
+    function setDate() {
+      const now = new Date()
+
+      // second hand
+      const seconds = now.getSeconds()
+      const secondsDeg = ((seconds / 60) * 360) + 90
+      if(seconds !== 0){
+        hand.style.transition = 'all 0.05s'
+      } else {
+        hand.style.transition = 'none'
+      }
+
+      // minute hand
+      const minutes = now.getMinutes()
+      const minDeg = ((minutes / 60) * 360) + 90
+
+      // hour hand
+      const hour = now.getHours()
+      const hourDeg = ((hour / 12) * 360) + 90
+
+      secondHand.style.transform = `rotate(${secondsDeg}deg)`
+      minHand.style.transform = `rotate(${minDeg}deg)`
+      hourHand.style.transform = `rotate(${hourDeg}deg)`
+
+      console.log(seconds)
+    }
+
+    setInterval(setDate, 1000)
 
   </script>
 </body>
